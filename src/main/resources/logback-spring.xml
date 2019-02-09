@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <timestamp key="LOG_DATE" datePattern="yyyyMMdd"/>
+
+  <!-- Listener -->
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+  <!-- Property -->
+  <property scope="context" name="LOG_FORMAT" value="%date %-5level [%thread] [%class:%line] %message%n"/>
+
+  <!-- Appender -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%highlight(${LOG_FORMAT})</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Logger -->
+  <logger name="org.springframework" level="INFO"/>
+  <logger name="com.example" level="INFO"/>
+
+  <!-- for local -->
+  <springProfile name="local">
+    <logger name="com.example" level="DEBUG"/>
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+</configuration>

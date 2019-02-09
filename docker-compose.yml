@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  mysql-writer1:
+    image: mysql:8.0
+    container_name: mysql-writer1
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=work
+      - MYSQL_USER=worker
+      - MYSQL_PASSWORD=worker
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/mysql/initdb.d/common-init.sql:/docker-entrypoint-initdb.d/common-init.sql:ro
+      - ./docker/mysql/writer1/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/mysql/writer1/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mysql/writer1/logs:/var/log/mysql:rw
+
+  mysql-reader1:
+    image: mysql:8.0
+    container_name: mysql-reader1
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=work
+      - MYSQL_USER=worker
+      - MYSQL_PASSWORD=worker
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/mysql/initdb.d/common-init.sql:/docker-entrypoint-initdb.d/common-init.sql:ro
+      - ./docker/mysql/reader1/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/mysql/reader1/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mysql/reader1/logs:/var/log/mysql:rw
+
+  mysql-reader2:
+    image: mysql:8.0
+    container_name: mysql-reader2
+    ports:
+      - 3308:3306
+    environment:
+      - MYSQL_DATABASE=work
+      - MYSQL_USER=worker
+      - MYSQL_PASSWORD=worker
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./docker/mysql/initdb.d/common-init.sql:/docker-entrypoint-initdb.d/common-init.sql:ro
+      - ./docker/mysql/reader2/initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./docker/mysql/reader2/conf.d:/etc/mysql/conf.d:ro
+      - ./docker/mysql/reader2/logs:/var/log/mysql:rw
